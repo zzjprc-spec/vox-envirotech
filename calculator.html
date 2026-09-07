@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VOx Envirotech — Energy Saving Calculator</title>
+  <meta name="description" content="Estimate energy, cost and CO2 savings with the VOx-XiX Permanent Magnet Adjustable Speed Drive." />
+  <link rel="icon" href="images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Sora:wght@500;600;700;800&amp;display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .calc-wrap {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    .calc-section {
+      padding-top: 92px;
+      padding-bottom: 76px;
+    }
+    .calc-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5.2vw, 3.6rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+    .calc-sub {
+      color: var(--muted);
+      font-size: 1.18rem;
+      max-width: 700px;
+      margin-bottom: 30px;
+    }
+    .calc-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      padding: 36px 34px;
+    }
+    .calc-save {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      border: 1px solid var(--accent-strong);
+      color: var(--brand);
+      font-weight: 700;
+      font-size: 15px;
+    }
+    .calc-save-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent-strong);
+      color: #fff;
+      display: grid;
+      place-items: center;
+    }
+    .calc-save-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+    .calc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .calc-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .calc-form .field > span {
+      font-size: 15px;
+    }
+    .calc-form .field input {
+      font-size: 16px;
+    }
+    .calc-results {
+      background: linear-gradient(160deg, #0d3b2e 0%, #124c3a 100%);
+      color: #eaf7f0;
+      border-radius: 16px;
+      padding: 26px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .calc-results h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+    .result-item {
+      border-top: 1px solid rgba(234, 247, 240, 0.16);
+      padding-top: 14px;
+    }
+    .result-item:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+    }
+    .result-item--highlight {
+      background: rgba(47, 211, 154, 0.14);
+      border: 1px solid rgba(47, 211, 154, 0.35);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+    .result-label {
+      display: block;
+      font-size: 14px;
+      color: #b7d8c8;
+      margin-bottom: 2px;
+    }
+    .result-value {
+      font-family: var(--font-display);
+      font-size: 1.9rem;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.01em;
+    }
+    .result-item--highlight .result-value {
+      color: #6ce9c0;
+    }
+    .calc-note {
+      margin-top: 22px;
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    @media (max-width: 760px) {
+      .calc-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header scrolled">
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html" aria-label="VOx Envirotech home" data-i18n-aria="brand_home_aria">
+        <img class="brand-logo" src="images/logo.png" alt="VOx Envirotech logo" />
+        <span class="brand-text">VOx <span>Envirotech</span></span>
+      </a>
+      <div class="header-right">
+        <a class="btn btn-primary" href="index.html#solutions" data-i18n="back_solutions">← Back to Solutions</a>
+        <div class="lang-switch">
+          <select id="langSelect" aria-label="Language">
+            <option value="en">English</option>
+            <option value="zh">简体中文</option>
+            <option value="es">Español</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section calc-section">
+      <div class="container calc-wrap">
+        <p class="eyebrow" data-i18n="calc_eyebrow">Energy Saving</p>
+        <h1 class="calc-title" data-i18n="calc_title">Energy Saving Calculator</h1>
+        <p class="calc-sub" data-i18n="calc_sub">
+          Estimate the energy, cost and CO2 savings from a VOx-XiX Permanent Magnet Adjustable Speed Drive (PM ASD) on a large rotating load.
+        </p>
+
+        <div class="calc-card">
+          <span class="calc-save">
+            <span class="calc-save-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10"/><path d="M15.5 9.5H9.5"/><path d="M15.5 14.5H9.5"/></svg>
+            </span>
+            <span data-i18n="calc_save">Save money &amp; energy</span>
+          </span>
+          <div class="calc-grid">
+            <form class="calc-form" id="calcForm" onsubmit="return false;">
+              <label class="field">
+                <span data-i18n="calc_label_power">Motor rated power (kW)</span>
+                <input type="number" id="power" value="100" min="1" step="1" />
+              </label>
+              <label class="field">
+                <span data-i18n="calc_label_hours">Annual operating hours (h)</span>
+                <input type="number" id="hours" value="8000" min="1" step="1" />
+              </label>
+              <label class="field">
+                <span data-i18n="calc_label_price">Electricity price ($/kWh)</span>
+                <input type="number" id="price" value="0.10" min="0.01" step="0.01" />
+              </label>
+              <label class="field">
+                <span data-i18n="calc_label_load">Average load factor (%)</span>
+                <input type="number" id="load" value="80" min="1" max="100" step="1" />
+              </label>
+              <label class="field">
+                <span data-i18n="calc_label_reduction">Average speed reduction with PM ASD (%)</span>
+                <input type="number" id="reduction" value="20" min="0" max="60" step="1" />
+              </label>
+            </form>
+
+            <div class="calc-results">
+              <h3 data-i18n="calc_results_title">Estimated annual savings</h3>
+              <div class="result-item">
+                <span class="result-label" data-i18n="calc_result_energy">Energy savings</span>
+                <span class="result-value" id="calcEnergy">—</span>
+              </div>
+              <div class="result-item result-item--highlight">
+                <span class="result-label" data-i18n="calc_result_cost">Cost savings</span>
+                <span class="result-value" id="calcCost">—</span>
+              </div>
+              <div class="result-item">
+                <span class="result-label" data-i18n="calc_result_co2">CO2 reduction</span>
+                <span class="result-value" id="calcCo2">—</span>
+              </div>
+            </div>
+          </div>
+
+          <p class="calc-note" data-i18n="calc_note">
+            Estimate based on the affinity (cube) law for variable-torque loads such as fans, pumps and mixers. Actual savings depend on the application, load profile and site conditions. CO2 estimated at 0.5 kg CO2 per kWh.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-wrap">
+      <a class="brand brand-footer" href="index.html" aria-label="Back to home" data-i18n-aria="back_home_aria">
+        <img class="brand-logo" src="images/logo.png" alt="VOx Envirotech logo" />
+        <span class="brand-text">VOx <span>Envirotech</span></span>
+      </a>
+      <p class="copyright" data-i18n="footer_copyright">© 2026 VOx Envirotech. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/i18n.js"></script>
+  <script>
+    (function () {
+      var ids = ["power", "hours", "price", "load", "reduction"];
+
+      function num(id) {
+        return parseFloat(document.getElementById(id).value) || 0;
+      }
+
+      function calc() {
+        var power = num("power");
+        var hours = num("hours");
+        var price = num("price");
+        var load = Math.min(100, Math.max(0, num("load"))) / 100;
+        var reduction = Math.min(60, Math.max(0, num("reduction"))) / 100;
+
+        var base = power * hours * load;
+        var speedFactor = Math.max(0, 1 - reduction);
+        var withDrive = power * hours * load * Math.pow(speedFactor, 3);
+        var savings = Math.max(0, base - withDrive);
+        var cost = savings * price;
+        var co2 = savings * 0.5 / 1000;
+
+        document.getElementById("calcEnergy").textContent =
+          Math.round(savings).toLocaleString() + " kWh/yr";
+        document.getElementById("calcCost").textContent =
+          "$" + Math.round(cost).toLocaleString() + " /yr";
+        document.getElementById("calcCo2").textContent =
+          co2.toLocaleString(undefined, { maximumFractionDigits: 1 }) + " t CO2/yr";
+      }
+
+      ids.forEach(function (id) {
+        document.getElementById(id).addEventListener("input", calc);
+      });
+
+      calc();
+    })();
+  </script>
+</body>
+</html>
