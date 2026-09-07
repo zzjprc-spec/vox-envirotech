@@ -15,9 +15,8 @@
     try { return localStorage.getItem("vox-lang") || "en"; } catch (e) { return "en"; }
   }
 
-  // For GitHub Pages + DeepSeek, set this to your Cloudflare Worker URL,
-  // e.g. "https://vox-assistant.yourname.workers.dev/api/assistant".
-  var ASSISTANT_API = "/api/assistant";
+  // Cloudflare Worker (DeepSeek proxy) deployed for www.voxenviro.com.
+  var ASSISTANT_API = "https://vox-assistant.zzjprc.workers.dev/";
 
   var T = {
     en: {
