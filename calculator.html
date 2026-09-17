@@ -218,8 +218,8 @@
       <div class="field">
         <label><span data-i18n="app_mode">应用模式</span></label>
         <div class="radio-group" id="modeGroup">
-          <label class="on"><input type="radio" name="mode" value="nothrottle" checked><span data-i18n="mode_nothrottle">无节流（相似定律）</span></label>
-          <label><input type="radio" name="mode" value="throttle"><span data-i18n="mode_throttle">节流工况（阀门/挡板）</span></label>
+          <label class="on"><input type="radio" name="mode" value="nothrottle" checked><span data-i18n="mode_nothrottle">无节流模式</span></label>
+          <label><input type="radio" name="mode" value="throttle"><span data-i18n="mode_throttle">有节流模式</span></label>
         </div>
       </div>
 
@@ -308,7 +308,7 @@
     <div data-i18n="footer_company">馨唯环保科技</div>
     <div data-i18n="footer_contact">周先生 +86 138 1645 2946 · James.zhou@voxenviro.com</div>
     <div data-i18n="footer_disclaimer">本计算器基于风扇/水泵相似定律与典型节流模型，节能效果与投资回收期为工程估算，仅供参考。</div>
-<div id="verNote" style="margin-top:6px;opacity:.75">Calculator version / 计算器版本 V2.2 · 2026-09-17</div>
+<div id="verNote" style="margin-top:6px;opacity:.75">Calculator version / 计算器版本 V2.3 · 2026-09-17</div>
   </footer>
 </div>
 
@@ -323,8 +323,8 @@ const T = {
     tariff: "电价",
     load_ratio_hint: "按实际平均流量（或需求流量）与额定流量之比填写。",
     app_mode: "应用模式",
-    mode_nothrottle: "无节流（相似定律）",
-    mode_throttle: "节流工况（阀门/挡板）",
+    mode_nothrottle: "无节流模式",
+    mode_throttle: "有节流模式",
     throttle_model: "节流基准取值",
     tmodel_avg: "工业平均值（经验曲线）",
     tmodel_curve: "按泵曲线输入",
@@ -397,8 +397,8 @@ const T = {
     tariff: "Electricity tariff",
     load_ratio_hint: "Enter the ratio of actual average flow (or required flow) to rated flow.",
     app_mode: "Application mode",
-    mode_nothrottle: "No throttling (affinity law)",
-    mode_throttle: "Throttling (valve / damper)",
+    mode_nothrottle: "No throttling",
+    mode_throttle: "With throttling",
     throttle_model: "Throttle baseline",
     tmodel_avg: "Industry average (empirical)",
     tmodel_curve: "From pump curve",
