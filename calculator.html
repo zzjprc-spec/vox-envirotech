@@ -1,277 +1,921 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VOx Envirotech — Energy Saving Calculator</title>
-  <meta name="description" content="Estimate energy, cost and CO2 savings with the VOx-XiX Permanent Magnet Adjustable Speed Drive." />
-  <link rel="icon" href="images/logo.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Sora:wght@500;600;700;800&amp;display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css" />
-  <style>
-    .calc-wrap {
-      max-width: 920px;
-      margin: 0 auto;
-    }
-    .calc-section {
-      padding-top: 92px;
-      padding-bottom: 76px;
-    }
-    .calc-title {
-      font-family: var(--font-display);
-      font-size: clamp(2.5rem, 5.2vw, 3.6rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      color: var(--ink);
-      margin-bottom: 16px;
-    }
-    .calc-sub {
-      color: var(--muted);
-      font-size: 1.18rem;
-      max-width: 700px;
-      margin-bottom: 30px;
-    }
-    .calc-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-      padding: 36px 34px;
-    }
-    .calc-save {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 28px;
-      padding: 10px 16px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      border: 1px solid var(--accent-strong);
-      color: var(--brand);
-      font-weight: 700;
-      font-size: 15px;
-    }
-    .calc-save-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: var(--accent-strong);
-      color: #fff;
-      display: grid;
-      place-items: center;
-    }
-    .calc-save-icon svg {
-      width: 16px;
-      height: 16px;
-    }
-    .calc-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-      align-items: start;
-    }
-    .calc-form {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .calc-form .field > span {
-      font-size: 15px;
-    }
-    .calc-form .field input {
-      font-size: 16px;
-    }
-    .calc-results {
-      background: linear-gradient(160deg, #0d3b2e 0%, #124c3a 100%);
-      color: #eaf7f0;
-      border-radius: 16px;
-      padding: 26px 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-    .calc-results h3 {
-      font-family: var(--font-display);
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 2px;
-    }
-    .result-item {
-      border-top: 1px solid rgba(234, 247, 240, 0.16);
-      padding-top: 14px;
-    }
-    .result-item:first-of-type {
-      border-top: 0;
-      padding-top: 0;
-    }
-    .result-item--highlight {
-      background: rgba(47, 211, 154, 0.14);
-      border: 1px solid rgba(47, 211, 154, 0.35);
-      border-radius: 10px;
-      padding: 12px 14px;
-    }
-    .result-label {
-      display: block;
-      font-size: 14px;
-      color: #b7d8c8;
-      margin-bottom: 2px;
-    }
-    .result-value {
-      font-family: var(--font-display);
-      font-size: 1.9rem;
-      font-weight: 800;
-      color: var(--accent);
-      letter-spacing: -0.01em;
-    }
-    .result-item--highlight .result-value {
-      color: #6ce9c0;
-    }
-    .calc-note {
-      margin-top: 22px;
-      font-size: 13.5px;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-    @media (max-width: 760px) {
-      .calc-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOx-XIX 永磁调速器节能计算器</title>
+<style>
+  :root {
+    --navy: #0b2e59;
+    --navy-2: #123a6b;
+    --blue: #1f6fd6;
+    --cyan: #27b8c8;
+    --amber: #f5a623;
+    --green: #19a974;
+    --red: #e0563f;
+    --bg: #f2f5fa;
+    --card: #ffffff;
+    --ink: #1c2b3a;
+    --muted: #61768c;
+    --line: #dce4ee;
+    --radius: 14px;
+    --shadow: 0 6px 24px rgba(11, 46, 89, 0.08);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+    background: linear-gradient(180deg, #eef3fb 0%, var(--bg) 260px);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 20px 18px 60px; }
+
+  /* Header */
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+    background: linear-gradient(120deg, var(--navy), var(--navy-2) 55%, #1a4f8f);
+    color: #fff; border-radius: var(--radius);
+    padding: 18px 22px; box-shadow: var(--shadow);
+  }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .logo {
+    width: 52px; height: 52px; border-radius: 12px; flex: 0 0 auto;
+    background: radial-gradient(circle at 30% 30%, #3aa0ff, #0f4f9e);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 15px; letter-spacing: 0.5px;
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,.25);
+  }
+  .brand .t1 { font-size: 20px; font-weight: 800; letter-spacing: .5px; }
+  .brand .t2 { font-size: 12.5px; opacity: .82; margin-top: 2px; }
+  .langbar { display: flex; gap: 6px; align-items: center; }
+  .langbar button {
+    border: 1px solid rgba(255,255,255,.45); background: transparent; color: #fff;
+    padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 13px;
+    transition: all .18s;
+  }
+  .langbar button.active { background: #fff; color: var(--navy); font-weight: 700; }
+
+  /* Layout */
+  main { display: grid; grid-template-columns: 400px 1fr; gap: 18px; margin-top: 18px; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 18px 20px; border: 1px solid var(--line);
+  }
+  .card h2 {
+    margin: 0 0 14px; font-size: 15.5px; font-weight: 700; color: var(--navy);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .card h2 .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); display: inline-block; }
+  .hint { font-size: 12px; color: var(--muted); line-height: 1.55; }
+
+  /* Inputs */
+  .field { margin-bottom: 15px; }
+  .field label { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; font-weight: 600; margin-bottom: 5px; }
+  .field label .unit { color: var(--muted); font-weight: 400; font-size: 12px; }
+  input[type="number"], input[type="text"] {
+    width: 100%; padding: 9px 11px; border: 1px solid var(--line); border-radius: 9px;
+    font-size: 14.5px; color: var(--ink); background: #fbfcfe; outline: none;
+    transition: border .15s, box-shadow .15s;
+  }
+  input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(31,111,214,.13); }
+  input[type="range"] { width: 100%; accent-color: var(--blue); }
+  .range-row { display: flex; align-items: center; gap: 10px; }
+  .range-row output {
+    min-width: 76px; text-align: right; font-weight: 700; color: var(--blue); font-size: 15px;
+  }
+  .quickbtns { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+  .quickbtns button {
+    border: 1px solid var(--line); background: #f4f7fb; border-radius: 8px;
+    padding: 4px 10px; font-size: 12px; cursor: pointer; color: var(--navy); transition: all .15s;
+  }
+  .quickbtns button:hover { border-color: var(--blue); color: var(--blue); }
+  .radio-group { display: flex; gap: 8px; flex-wrap: wrap; }
+  .radio-group label {
+    flex: 1; min-width: 130px; border: 1px solid var(--line); border-radius: 9px;
+    padding: 9px 10px; font-size: 12.5px; cursor: pointer; background: #fbfcfe;
+    display: flex; gap: 7px; align-items: center; transition: all .15s;
+  }
+  .radio-group label.on { border-color: var(--blue); background: #eef5ff; color: var(--navy); font-weight: 600; }
+  .radio-group input { accent-color: var(--blue); }
+  .hidden { display: none !important; }
+
+  /* Results */
+  .results { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+  .kpi {
+    border-radius: 12px; padding: 14px 15px; border: 1px solid var(--line);
+    background: linear-gradient(180deg, #ffffff, #f8fafd);
+  }
+  .kpi .k-label { font-size: 12px; color: var(--muted); margin-bottom: 7px; }
+  .kpi .k-value { font-size: 22px; font-weight: 800; color: var(--navy); line-height: 1.1; }
+  .kpi .k-sub { font-size: 11.5px; color: var(--muted); margin-top: 5px; }
+  .kpi.hot { border-color: rgba(245,166,35,.55); background: linear-gradient(180deg, #fffdf7, #fff6e4); }
+  .kpi.hot .k-value { color: #c77d10; }
+  .kpi.green { border-color: rgba(25,169,116,.45); background: linear-gradient(180deg, #ffffff, #effaf5); }
+  .kpi.green .k-value { color: #127a55; }
+  .kpi.payback { border-color: rgba(224,86,63,.4); background: linear-gradient(180deg, #fff, #fdf3f1); }
+  .kpi.payback .k-value { color: var(--red); }
+  .note { margin-top: 12px; font-size: 12px; color: var(--muted); line-height: 1.55; border-top: 1px dashed var(--line); padding-top: 10px; }
+
+  .chart-box { margin-top: 18px; }
+  .chart-box h3 { font-size: 13.5px; font-weight: 700; color: var(--navy); margin: 0 0 8px; }
+  .chart-box svg { width: 100%; height: auto; display: block; }
+  .legend { display: flex; gap: 18px; font-size: 12px; color: var(--muted); margin-top: 6px; flex-wrap: wrap; }
+  .legend i { display: inline-block; width: 18px; height: 4px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 6px; }
+  th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: right; }
+  #loadTable input.curve-in {
+    width: 68px; padding: 3px 6px; font-size: 12.5px; text-align: right;
+    border: 1px solid var(--line); border-radius: 6px; background: #fff; color: var(--ink);
+  }
+  th { color: var(--navy); background: #f4f7fb; font-weight: 700; }
+  th:first-child, td:first-child { text-align: left; }
+  tr.hl td { background: #eef5ff; font-weight: 700; color: var(--navy); }
+  tfoot td { font-weight: 700; color: var(--navy); border-top: 2px solid var(--line); border-bottom: 0; }
+
+  .actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+  .btn {
+    border: 0; border-radius: 10px; padding: 10px 18px; font-size: 13.5px; font-weight: 700;
+    cursor: pointer; transition: all .15s;
+  }
+  .btn-primary { background: linear-gradient(120deg, var(--blue), #2c7de0); color: #fff; box-shadow: 0 4px 14px rgba(31,111,214,.3); }
+  .btn-primary:hover { filter: brightness(1.06); }
+  .btn-ghost { background: #fff; color: var(--navy); border: 1px solid var(--line); }
+  .btn-ghost:hover { border-color: var(--blue); color: var(--blue); }
+
+  .faq { font-size: 13px; color: var(--ink); line-height: 1.7; }
+  .faq b { color: var(--navy); }
+  .faq ul { margin: 6px 0 0; padding-left: 20px; }
+  footer { margin-top: 24px; text-align: center; font-size: 12px; color: var(--muted); line-height: 1.7; }
+  footer .brand-line { font-weight: 700; color: var(--navy); font-size: 13px; }
+
+  /* Print */
+  @media print {
+    body { background: #fff; }
+    header, .langbar, .actions, .inputs, .quickbtns, .radio-group label { display: none !important; }
+    .wrap { max-width: 100%; padding: 0; }
+    main { display: block; }
+    .card { box-shadow: none; border-color: #ccc; break-inside: avoid; }
+    .results { grid-template-columns: repeat(4, 1fr); }
+  }
+</style>
 </head>
 <body>
-  <header class="site-header scrolled">
-    <div class="container nav-wrap">
-      <a class="brand" href="index.html" aria-label="VOx Envirotech home" data-i18n-aria="brand_home_aria">
-        <img class="brand-logo" src="images/logo.png" alt="VOx Envirotech logo" />
-        <span class="brand-text">VOx <span>Envirotech</span></span>
-      </a>
-      <div class="header-right">
-        <a class="btn btn-primary" href="index.html#solutions" data-i18n="back_solutions">← Back to Solutions</a>
-        <div class="lang-switch">
-          <select id="langSelect" aria-label="Language">
-            <option value="en">English</option>
-            <option value="zh">简体中文</option>
-            <option value="es">Español</option>
-          </select>
-        </div>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo">VOx<br>-XIX</div>
+      <div>
+        <div class="t1">VOx-XIX PMASD</div>
+        <div class="t2" data-i18n="tagline">永磁调速器节能效果计算器</div>
       </div>
+    </div>
+    <div class="langbar">
+      <button id="unit-metric" class="active" onclick="setUnits('metric')">公制</button>
+      <button id="unit-us" onclick="setUnits('us')">美制</button>
+      <span style="opacity:.35;margin:0 2px">|</span>
+      <button id="lang-zh" onclick="setLang('zh')">中文</button>
+      <button id="lang-en" class="active" onclick="setLang('en')">EN</button>
     </div>
   </header>
 
+  <div style="max-width:1180px;margin:12px auto 0;padding:0 18px">
+    <a href="index.html#solutions" style="display:inline-flex;align-items:center;gap:6px;color:var(--navy);font-size:13.5px;font-weight:600;text-decoration:none">
+      ← Back to VOx Envirotech
+    </a>
+  </div>
+
   <main>
-    <section class="section calc-section">
-      <div class="container calc-wrap">
-        <p class="eyebrow" data-i18n="calc_eyebrow">Energy Saving</p>
-        <h1 class="calc-title" data-i18n="calc_title">Energy Saving Calculator</h1>
-        <p class="calc-sub" data-i18n="calc_sub">
-          Estimate the energy, cost and CO2 savings from a VOx-XiX Permanent Magnet Adjustable Speed Drive (PM ASD) on a large rotating load.
-        </p>
+    <!-- Inputs -->
+    <section class="card inputs">
+      <h2><span class="dot"></span><span data-i18n="in_title">设备与工况参数</span></h2>
 
-        <div class="calc-card">
-          <span class="calc-save">
-            <span class="calc-save-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10"/><path d="M15.5 9.5H9.5"/><path d="M15.5 14.5H9.5"/></svg>
-            </span>
-            <span data-i18n="calc_save">Save money &amp; energy</span>
-          </span>
-          <div class="calc-grid">
-            <form class="calc-form" id="calcForm" onsubmit="return false;">
-              <label class="field">
-                <span data-i18n="calc_label_power">Motor rated power (kW)</span>
-                <input type="number" id="power" value="100" min="1" step="1" />
-              </label>
-              <label class="field">
-                <span data-i18n="calc_label_hours">Annual operating hours (h)</span>
-                <input type="number" id="hours" value="8000" min="1" step="1" />
-              </label>
-              <label class="field">
-                <span data-i18n="calc_label_price">Electricity price ($/kWh)</span>
-                <input type="number" id="price" value="0.10" min="0.01" step="0.01" />
-              </label>
-              <label class="field">
-                <span data-i18n="calc_label_load">Average load factor (%)</span>
-                <input type="number" id="load" value="80" min="1" max="100" step="1" />
-              </label>
-              <label class="field">
-                <span data-i18n="calc_label_reduction">Average speed reduction with PM ASD (%)</span>
-                <input type="number" id="reduction" value="20" min="0" max="60" step="1" />
-              </label>
-            </form>
+      <div class="field">
+        <label><span data-i18n="motor_power">电机额定功率</span><span class="unit" id="motorPowerUnit">kW</span></label>
+        <input type="number" id="motorPower" min="0.1" max="100000" step="0.1" value="500">
+      </div>
 
-            <div class="calc-results">
-              <h3 data-i18n="calc_results_title">Estimated annual savings</h3>
-              <div class="result-item">
-                <span class="result-label" data-i18n="calc_result_energy">Energy savings</span>
-                <span class="result-value" id="calcEnergy">—</span>
-              </div>
-              <div class="result-item result-item--highlight">
-                <span class="result-label" data-i18n="calc_result_cost">Cost savings</span>
-                <span class="result-value" id="calcCost">—</span>
-              </div>
-              <div class="result-item">
-                <span class="result-label" data-i18n="calc_result_co2">CO2 reduction</span>
-                <span class="result-value" id="calcCo2">—</span>
-              </div>
-            </div>
-          </div>
+      <div class="field">
+        <label><span data-i18n="load_ratio">平均负载率（流量比）</span><span class="unit" id="loadRatioUnit">%</span></label>
+        <input type="number" id="loadRatio" min="10" max="100" step="1" value="75">
+        <div class="hint" data-i18n="load_ratio_hint">按实际平均流量（或需求流量）与额定流量之比填写。</div>
+      </div>
 
-          <p class="calc-note" data-i18n="calc_note">
-            Estimate based on the affinity (cube) law for variable-torque loads such as fans, pumps and mixers. Actual savings depend on the application, load profile and site conditions. CO2 estimated at 0.5 kg CO2 per kWh.
-          </p>
+      <div class="field">
+        <label><span data-i18n="annual_hours">年运行时间</span><span class="unit">h/年</span></label>
+        <input type="number" id="annualHours" min="1" max="8760" step="1" value="8000">
+      </div>
+
+      <div class="field">
+        <label><span data-i18n="tariff">电价</span><span class="unit" id="tariffUnit">RMB/kWh</span></label>
+        <input type="number" id="tariff" min="0.01" max="5" step="0.01" value="0.75">
+      </div>
+
+      <div class="field">
+        <label><span data-i18n="app_mode">应用模式</span></label>
+        <div class="radio-group" id="modeGroup">
+          <label class="on"><input type="radio" name="mode" value="nothrottle" checked><span data-i18n="mode_nothrottle">无节流（相似定律）</span></label>
+          <label><input type="radio" name="mode" value="throttle"><span data-i18n="mode_throttle">节流工况（阀门/挡板）</span></label>
         </div>
+        <div class="hint" id="modeNote"></div>
+      </div>
+
+      <div class="field hidden" id="tmodelField">
+        <label><span data-i18n="throttle_model">节流基准取值</span></label>
+        <div class="radio-group" id="tmodelGroup">
+          <label class="on"><input type="radio" name="tmodel" value="avg" checked><span data-i18n="tmodel_avg">工业平均值（线性）</span></label>
+          <label><input type="radio" name="tmodel" value="curve"><span data-i18n="tmodel_curve">按泵曲线输入</span></label>
+        </div>
+        <div class="hint" data-i18n="curve_hint">选择“按泵曲线输入”后，可在下方对比表中逐档修改节流功率占比（%）。</div>
+      </div>
+
+      <div class="field">
+        <label><span id="basePowerLabel">工频全速实测功率（可选）</span><span class="unit" id="basePowerUnit">kW</span></label>
+        <input type="number" id="measuredPower" min="0" max="100000" step="0.1" value="0">
+        <div class="hint" data-i18n="base_hint">填写实测值可提高准确度；留空或填 0 时按模型估算。</div>
+      </div>
+
+      <div class="field">
+        <label><span data-i18n="invest_unit">设备投资单价</span><span class="unit" id="investUnitLabel">RMB/kW</span></label>
+        <input type="range" id="investUnit" min="800" max="2400" step="10" value="1250">
+        <div class="range-row">
+          <span class="hint" id="investRangeHint">投资范围 800–2400 RMB/kW</span>
+          <output id="investUnitVal">1250</output>
+        </div>
+        <div class="quickbtns">
+          <button onclick="setUnit(800)">800</button>
+          <button onclick="setUnit(1250)">1250</button>
+          <button onclick="setUnit(2400)">2400</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label><span data-i18n="extra_cost">附加费用（安装/工程等）</span><span class="unit">%</span></label>
+        <input type="number" id="extraCost" min="0" max="100" step="1" value="0">
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" onclick="window.print()" data-i18n="print_btn">打印 / 导出 PDF 报告</button>
+        <button class="btn btn-ghost" onclick="resetAll()" data-i18n="reset_btn">重置参数</button>
+      </div>
+      <div class="note" data-i18n="disclaimer_input">说明：投资单价按 800–2400 RMB/kW 区间估算；计算结果供方案比选参考，实际以现场工况与报价为准。</div>
+    </section>
+
+    <!-- Results -->
+    <section>
+      <div class="card">
+        <h2><span class="dot"></span><span data-i18n="out_title">节能效果测算结果</span></h2>
+        <div class="results" id="kpiGrid"></div>
+        <div class="note" id="resultNote"></div>
+      </div>
+
+      <div class="card chart-box">
+        <h3 data-i18n="chart1_title">负载–功率曲线（相似定律 P2 = P1 × (N2/N1)³）</h3>
+        <div id="chart1"></div>
+        <div class="legend">
+          <span><i style="background:var(--red)"></i><span id="legendBaseline" data-i18n="legend_baseline_nothrottle">工频全速（无节流）</span></span>
+          <span><i style="background:var(--green)"></i><span data-i18n="legend_pmsd">永磁调速 PMSD</span></span>
+          <span><i style="background:var(--blue)"></i><span data-i18n="legend_current">当前工况</span></span>
+        </div>
+      </div>
+
+      <div class="card chart-box">
+        <h3 data-i18n="chart2_title">累计节省费用与投资回收</h3>
+        <div id="chart2"></div>
+        <div class="legend">
+          <span><i style="background:var(--green)"></i><span data-i18n="legend_cum">累计节省费用</span></span>
+          <span><i style="background:var(--red)"></i><span data-i18n="legend_invest">设备投资</span></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><span class="dot"></span><span data-i18n="table_title">不同负载率下的节电对比（按额定功率）</span></h2>
+        <div id="loadTable"></div>
+      </div>
+
+      <div class="card">
+        <h2><span class="dot"></span><span data-i18n="why_title">为什么选择永磁调速器？</span></h2>
+        <div class="faq" id="whyBody"></div>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-wrap">
-      <a class="brand brand-footer" href="index.html" aria-label="Back to home" data-i18n-aria="back_home_aria">
-        <img class="brand-logo" src="images/logo.png" alt="VOx Envirotech logo" />
-        <span class="brand-text">VOx <span>Envirotech</span></span>
-      </a>
-      <p class="copyright" data-i18n="footer_copyright">© 2026 VOx Envirotech. All rights reserved.</p>
-    </div>
+  <footer>
+    <div class="brand-line">VOx-XIX Permanent Magnet Adjustable Speed Drive</div>
+    <div data-i18n="footer_company">VOx Envirotech LLC</div>
+    <div data-i18n="footer_contact">Thomas Dayton · +1 (636) 557-2733 · tdayton@voxenviro.com · www.voxenviro.com</div>
+    <div data-i18n="footer_disclaimer">本计算器基于风扇/水泵相似定律与典型节流模型，节能效果与投资回收期为工程估算，仅供参考。</div>
+<div id="verNote" style="margin-top:6px;opacity:.75">Calculator version / 计算器版本 V2.1 · 2026-09-17</div>
   </footer>
+</div>
 
-  <script src="js/i18n.js"></script>
-  <script>
-    (function () {
-      var ids = ["power", "hours", "price", "load", "reduction"];
+<script>
+const T = {
+  zh: {
+    tagline: "永磁调速器节能效果计算器",
+    in_title: "设备与工况参数",
+    motor_power: "电机额定功率",
+    load_ratio: "平均负载率（流量比）",
+    annual_hours: "年运行时间",
+    tariff: "电价",
+    load_ratio_hint: "按实际平均流量（或需求流量）与额定流量之比填写。",
+    app_mode: "应用模式",
+    mode_nothrottle: "无节流（相似定律）",
+    mode_throttle: "节流工况（阀门/挡板）",
+    mode_note_nothrottle: "适用：泵出口无调节阀的工况（如石膏法脱硫浆液泵）。基准为工频全速运行功率（默认 ≈ 额定功率），永磁调速后功率 ≈ 额定功率 × 负载率³，节能来自降速运行。",
+    mode_note_throttle: "适用：阀门/挡板节流的工况（如循环冷却塔水泵）。基准为节流工况功率：默认取工业平均值——电机功率下降慢于流量，约为额定的 50% + 50% × 负载率（如 90% 流量 ≈ 95% 功率；阀全关时约 50%）；也可按泵曲线自定义或填实测值。永磁调速取消节流后功率 ≈ 额定功率 × 负载率³。",
+    throttle_model: "节流基准取值",
+    tmodel_avg: "工业平均值（经验曲线）",
+    tmodel_curve: "按泵曲线输入",
+    curve_hint: "选择“按泵曲线输入”后，可在下方对比表中逐档修改节流功率占比（%）；默认值为工业平均值（90% 流量 ≈ 95% 功率）。",
+    base_power_nothrottle: "工频全速实测功率（可选）",
+    base_power_throttle: "节流工况实测功率（可选）",
+    base_hint: "填写实测值可提高准确度；留空或填 0 时按模型估算。",
+    units_label: "单位制",
+    unit_metric: "公制",
+    unit_us: "美制",
+    invest_unit: "设备投资单价",
+    extra_cost: "附加费用（安装/工程等）",
+    print_btn: "打印 / 导出 PDF 报告",
+    reset_btn: "重置参数",
+    disclaimer_input: "说明：计算结果为工程估算，供方案比选参考；理想三次方结果为上限，对外报价建议按 0.7–0.8 保守折算，最终以现场工况与正式报价为准。",
+    out_title: "节能效果测算结果",
+    kpi_saved_power: "节省功率",
+    kpi_saved_energy: "年节省电量",
+    kpi_saved_cost: "年节省费用",
+    kpi_payback: "投资回收期",
+    kpi_saving_rate: "节能率",
+    kpi_invest: "设备投资总额",
+    kpi_baseline_nothrottle: "工频全速功率",
+    kpi_baseline_throttle: "节流工况功率",
+    kpi_pmsd: "永磁调速后功率",
+    unit_kwh: "kWh",
+    unit_year: "年",
+    unit_month: "个月",
+    month: "个月",
+    never: "—",
+    no_saving: "当前负载率下无节电空间（负载率 100% 时节流与调速功率相同）。建议降低负载率或复核工况。",
+    result_note_nothrottle: "无节流模式：基准功率 ≈ 额定功率（工频全速运行），永磁调速后功率 ≈ 额定功率 × 负载率³；节能率 =（基准功率 − 调速功率）÷ 基准功率。",
+    result_note_throttle: "节流模式：基准功率取节流工况功率（工业平均值 50% + 50% × 负载率 / 泵曲线 / 实测值），永磁调速取消节流后功率 ≈ 额定功率 × 负载率³；节能率 =（节流功率 − 调速功率）÷ 节流功率。",
+    chart1_title: "负载–功率曲线（相似定律 P2 = P1 × (N2/N1)³）",
+    legend_baseline_nothrottle: "工频全速（无节流）",
+    legend_baseline_throttle: "节流工况功率",
+    legend_pmsd: "永磁调速 PMSD",
+    legend_current: "当前工况",
+    chart2_title: "累计节省费用与投资回收",
+    legend_cum: "累计节省费用",
+    legend_invest: "设备投资",
+    table_title: "不同负载率下的节电对比（按额定功率）",
+    th_load: "负载率",
+    th_base: "基准功率",
+    th_curve: "节流功率占比",
+    th_pmsd: "PMSD 功率 (kW)",
+    th_saved: "节省功率 (kW)",
+    th_pct: "节省率",
+    row_current: "当前工况",
+    why_title: "为什么选择永磁调速器？",
+    why_body: [
+      ["最高节能 50%+", "风泵类负载采用节流调节时损耗巨大，改为永磁调速后按相似定律 P₂ = P₁ × (N₂/N₁)³ 运行，可大幅降低电机功率。", "affinity"],
+      ["标准电机即可", "无需变频专用电机，普通标准电机即可使用，降低配套成本。", "motor"],
+      ["无谐波、无电压尖峰", "永磁调速为纯机械调速，无电力电子器件，不产生谐波与电压尖峰，不影响电网质量。", "harmonic"],
+      ["适应恶劣环境", "结构简单可靠，适合高温、粉尘、潮湿及易燃易爆等严苛环境，寿命可达 15–20 年。", "env"]
+    ],
+    footer_company: "VOx Envirotech LLC",
+    footer_contact: "Thomas Dayton · +1 (636) 557-2733 · tdayton@voxenviro.com · www.voxenviro.com",
+    footer_disclaimer: "本计算器基于风扇/水泵相似定律与典型节流模型，节能效果与投资回收期为工程估算，仅供参考。",
+    load_label: "负载率",
+    payback_note: "年"
+  },
+  en: {
+    tagline: "Permanent Magnet Adjustable Speed Drive – Energy Savings Calculator",
+    in_title: "Equipment & Operating Parameters",
+    motor_power: "Motor rated power",
+    load_ratio: "Average load ratio (flow)",
+    annual_hours: "Annual operating hours",
+    tariff: "Electricity tariff",
+    load_ratio_hint: "Enter the ratio of actual average flow (or required flow) to rated flow.",
+    app_mode: "Application mode",
+    mode_nothrottle: "No throttling (affinity law)",
+    mode_throttle: "Throttling (valve / damper)",
+    mode_note_nothrottle: "For applications without a control valve, e.g., gypsum-desulfurization slurry pumps. Baseline = full-speed operation power (≈ rated power); PMSD power ≈ rated power × load ratio³, so savings come from lower speed operation.",
+    mode_note_throttle: "For throttled applications, e.g., cooling-tower pumps. Baseline = throttled power: industry average by default — motor power falls more slowly than flow, roughly 50% + 50% × load ratio (e.g. 90% flow ≈ 95% power; closed valve ≈ 50%) — or your pump-curve / measured value. PMSD removes throttling; power ≈ rated power × load ratio³.",
+    throttle_model: "Throttle baseline",
+    tmodel_avg: "Industry average (empirical)",
+    tmodel_curve: "From pump curve",
+    curve_hint: "With “From pump curve” selected, edit the throttle power ratio (%) row by row in the table below; defaults follow the industry average (90% flow ≈ 95% power).",
+    base_power_nothrottle: "Measured full-speed power (optional)",
+    base_power_throttle: "Measured throttled power (optional)",
+    base_hint: "Measured values improve accuracy; leave blank or 0 to use the model.",
+    units_label: "Units",
+    unit_metric: "Metric",
+    unit_us: "US",
+    invest_unit: "Equipment investment unit price",
+    extra_cost: "Additional cost (installation / engineering)",
+    print_btn: "Print / Export PDF report",
+    reset_btn: "Reset parameters",
+    disclaimer_input: "Engineering estimates for comparison only. The ideal cube-law result is an upper bound; apply a 0.7–0.8 conservative factor for external quotations. Actual results depend on site conditions and the final quotation.",
+    out_title: "Energy Savings Estimate",
+    kpi_saved_power: "Power saved",
+    kpi_saved_energy: "Annual energy saved",
+    kpi_saved_cost: "Annual cost savings",
+    kpi_payback: "Payback period",
+    kpi_saving_rate: "Saving rate",
+    kpi_invest: "Total equipment investment",
+    kpi_baseline_nothrottle: "Full-speed power",
+    kpi_baseline_throttle: "Throttled power",
+    kpi_pmsd: "Power with PMSD",
+    unit_kwh: "kWh",
+    unit_year: "yr",
+    unit_month: "months",
+    month: "months",
+    never: "—",
+    no_saving: "No saving at this load ratio (at 100% load, throttled and speed-controlled power are equal). Lower the load ratio or re-check site conditions.",
+    result_note_nothrottle: "No-throttling mode: baseline ≈ rated power (full-speed operation); PMSD power ≈ rated power × load ratio³; saving rate = (baseline − PMSD) ÷ baseline.",
+    result_note_throttle: "Throttling mode: baseline = throttled power (industry average 50% + 50% × load ratio / pump curve / measured); PMSD removes throttling, power ≈ rated power × load ratio³; saving rate = (throttled − PMSD) ÷ throttled.",
+    chart1_title: "Power vs. Load Curve (Affinity Law P2 = P1 × (N2/N1)³)",
+    legend_baseline_nothrottle: "Full speed (no throttling)",
+    legend_baseline_throttle: "Throttled power",
+    legend_pmsd: "Permanent magnet drive PMSD",
+    legend_current: "Current operating point",
+    chart2_title: "Cumulative Savings vs. Investment Payback",
+    legend_cum: "Cumulative savings",
+    legend_invest: "Equipment investment",
+    table_title: "Energy Savings at Different Load Ratios (by rated power)",
+    th_load: "Load ratio",
+    th_base: "Baseline power",
+    th_curve: "Throttle power ratio",
+    th_pmsd: "PMSD power (hp)",
+    th_saved: "Power saved (hp)",
+    th_pct: "Saving rate",
+    row_current: "Current operating point",
+    why_title: "Why Choose a Permanent Magnet Adjustable Speed Drive?",
+    why_body: [
+      ["Up to 50%+ savings", "Fans and pumps waste large amounts of energy with throttling. With PMSD, power follows the affinity law P₂ = P₁ × (N₂/N₁)³, cutting motor power dramatically.", "affinity"],
+      ["Standard motor only", "No inverter-duty motor required; a standard motor works, lowering total cost.", "motor"],
+      ["No harmonics, no voltage spikes", "PMSD is a purely mechanical speed control with no power electronics, producing no harmonics or voltage spikes.", "harmonic"],
+      ["Built for harsh environments", "Simple and reliable structure suited for high temperature, dust, humidity and flammable/explosive areas, with 15–20 years life.", "env"]
+    ],
+    footer_company: "VOx Envirotech LLC",
+    footer_contact: "Thomas Dayton · +1 (636) 557-2733 · tdayton@voxenviro.com · www.voxenviro.com",
+    footer_disclaimer: "This calculator is based on the fan/pump affinity law and typical throttling models. Savings and payback are engineering estimates for reference only.",
+    load_label: "Load ratio",
+    payback_note: "yr"
+  }
+};
 
-      function num(id) {
-        return parseFloat(document.getElementById(id).value) || 0;
-      }
+let lang = 'en';
+let units = 'metric';
+const LOADS = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5];
+// industry-average throttled power ratio per load point: P% = 50% + 50% x flow%
+// (e.g. 90% flow -> 95% motor power; valve closed -> about 50%)
+const AVG_CURVE = [1.0, 0.95, 0.90, 0.85, 0.80, 0.75];
+let curveValues = AVG_CURVE.slice();
 
-      function calc() {
-        var power = num("power");
-        var hours = num("hours");
-        var price = num("price");
-        var load = Math.min(100, Math.max(0, num("load"))) / 100;
-        var reduction = Math.min(60, Math.max(0, num("reduction"))) / 100;
+function t(key) { return (T[lang] && T[lang][key]) || key; }
 
-        var base = power * hours * load;
-        var speedFactor = Math.max(0, 1 - reduction);
-        var withDrive = power * hours * load * Math.pow(speedFactor, 3);
-        var savings = Math.max(0, base - withDrive);
-        var cost = savings * price;
-        var co2 = savings * 0.5 / 1000;
+function fmt(n, d) {
+  if (!isFinite(n)) return t('never');
+  const digits = (d === undefined) ? 1 : d;
+  return n.toLocaleString(lang === 'zh' ? 'zh-CN' : 'en-US', { maximumFractionDigits: digits, minimumFractionDigits: 0 });
+}
 
-        document.getElementById("calcEnergy").textContent =
-          Math.round(savings).toLocaleString() + " kWh/yr";
-        document.getElementById("calcCost").textContent =
-          "$" + Math.round(cost).toLocaleString() + " /yr";
-        document.getElementById("calcCo2").textContent =
-          co2.toLocaleString(undefined, { maximumFractionDigits: 1 }) + " t CO2/yr";
-      }
+const HP_PER_KW = 1.34102209;
+const RMB_PER_USD = 6;
+// two unit systems, selectable independently of language
+const U = {
+  metric: {
+    power: 'kW', cur: '¥', tariff: 'RMB/kWh', price: 'RMB/kW', wan: '万元',
+    iMin: 800, iMax: 2400, iStep: 10, quicks: [800, 1600, 2400],
+    tMin: 0.01, tMax: 5, tStep: 0.01,
+    def: { P: 500, tariff: 0.75, unit: 1250 }
+  },
+  us: {
+    power: 'hp', cur: '$', tariff: '¢/kWh', price: 'USD/kW', wan: '×10k USD',
+    iMin: 150, iMax: 400, iStep: 5, quicks: [150, 250, 400],
+    tMin: 0.1, tMax: 100, tStep: 0.1,
+    def: { P: 500, tariff: 12.5, unit: 210 }
+  }
+};
+function round2(v) { return Math.round(v * 100) / 100; }
+function pDisp(kw) { return units === 'us' ? kw * HP_PER_KW : kw; }
+function pBase(v) { return units === 'us' ? v / HP_PER_KW : v; }
+function tariffDisp(rmb) { return units === 'us' ? rmb * 100 / RMB_PER_USD : rmb; }
+function tariffBase(v) { return units === 'us' ? v * RMB_PER_USD / 100 : v; }
+function unitDisp(rmb) { return units === 'us' ? rmb / RMB_PER_USD : rmb; }
+function unitBase(v) { return units === 'us' ? v * RMB_PER_USD : v; }
+function money(rmb) { return units === 'us' ? rmb / RMB_PER_USD : rmb; }
+function U_() { return U[units]; }
+function el(id) { return document.getElementById(id); }
+function curveRatioAt(curve, L) {
+  if (L >= LOADS[0]) return curve[0];
+  if (L <= LOADS[LOADS.length - 1]) return curve[curve.length - 1] * (L / LOADS[LOADS.length - 1]);
+  for (let i = 0; i < LOADS.length - 1; i++) {
+    if (L <= LOADS[i] && L >= LOADS[i + 1]) {
+      const t = (LOADS[i] - L) / (LOADS[i] - LOADS[i + 1]);
+      return curve[i] + (curve[i + 1] - curve[i]) * t;
+    }
+  }
+  return L;
+}
+function readCurve() {
+  const out = [];
+  for (let i = 0; i < LOADS.length; i++) {
+    const inp = el('curve-in-' + i);
+    out.push(inp ? Math.max(0, (parseFloat(inp.value) || 0) / 100) : curveValues[i]);
+  }
+  return out;
+}
+function baselineRatio(s, Lc) {
+  if (s.mode === 'nothrottle') return 1;               // full-speed operation
+  if (s.tmodel === 'curve') return curveRatioAt(s.curve, Lc);
+  return 0.5 + 0.5 * Lc;                               // industry average: 90% flow -> 95% power
+}
+function basePowerAt(s, Lc, useMeasured) {
+  if (useMeasured && s.measured > 0) return s.measured;
+  return s.P * baselineRatio(s, Lc);
+}
 
-      ids.forEach(function (id) {
-        document.getElementById(id).addEventListener("input", calc);
-      });
+function state() {
+  const tRaw = parseFloat(el('tariff').value) || 0;
+  const uRaw = parseFloat(el('investUnit').value) || 0;
+  const Lraw = (parseFloat(el('loadRatio').value) || 0) / 100;
+  return {
+    lang: lang,
+    units: units,
+    mode: document.querySelector('input[name="mode"]:checked').value,
+    tmodel: document.querySelector('input[name="tmodel"]:checked').value,
+    P: pBase(parseFloat(el('motorPower').value) || 0),
+    L: Math.min(Math.max(Lraw, 0.01), 1),
+    hours: parseFloat(el('annualHours').value) || 0,
+    price: tariffBase(tRaw),
+    unit: Math.round(unitBase(uRaw)),
+    extra: parseFloat(el('extraCost').value) || 0,
+    measured: pBase(parseFloat(el('measuredPower').value) || 0),
+    curve: readCurve()
+  };
+}
 
-      calc();
-    })();
-  </script>
+function calc(s) {
+  const L = s.L;
+  const P = s.P;
+  const P_base = basePowerAt(s, L, true);
+  const P_speed = P * L * L * L;
+  const dP = Math.max(0, P_base - P_speed);
+  const energy = dP * s.hours;
+  const cost = energy * s.price;
+  const invest = P * s.unit * (1 + s.extra / 100);
+  const payback = cost > 0 ? invest / cost : Infinity;
+  const savingRate = P_base > 0 ? dP / P_base * 100 : 0;
+  return { ...s, L, P_base, P_speed, dP, energy, cost, invest, payback, savingRate };
+}
+
+function kpi(label, value, sub, cls) {
+  return '<div class="kpi ' + (cls || '') + '"><div class="k-label">' + label + '</div><div class="k-value">' + value + '</div>' + (sub ? '<div class="k-sub">' + sub + '</div>' : '') + '</div>';
+}
+
+function renderResults(r) {
+  const grid = document.getElementById('kpiGrid');
+  const Uc = U_();
+  const paybackTxt = isFinite(r.payback) ? fmt(r.payback, 2) + ' ' + t('unit_year') + ' · ' + fmt(Math.round(r.payback * 12)) + ' ' + t('month') : t('never');
+  const investVal = money(r.invest);
+  const costVal = money(r.cost);
+  const power = Uc.power;
+  const investWan = '≈ ' + fmt(investVal / 10000, 1) + ' ' + Uc.wan;
+  const energyWan = lang === 'zh' ? '≈ ' + fmt(r.energy / 10000, 1) + ' ' + Uc.wan + ' kWh' : '';
+  const baseLabel = r.mode === 'nothrottle' ? t('kpi_baseline_nothrottle') : t('kpi_baseline_throttle');
+  let html = '';
+  html += kpi(t('kpi_saved_power'), fmt(pDisp(r.dP), 1) + ' ' + power, baseLabel + ': ' + fmt(pDisp(r.P_base), 1) + ' ' + power + ' → ' + fmt(pDisp(r.P_speed), 1) + ' ' + power, 'green');
+  html += kpi(t('kpi_saved_energy'), fmt(r.energy, 0) + ' ' + t('unit_kwh'), energyWan, 'green');
+  html += kpi(t('kpi_saved_cost'), Uc.cur + ' ' + fmt(costVal, 0), lang === 'zh' ? '≈ ' + fmt(costVal / 10000, 1) + ' ' + Uc.wan : '/year', 'hot');
+  html += kpi(t('kpi_saving_rate'), fmt(r.savingRate, 1) + ' %', '', 'hot');
+  html += kpi(t('kpi_invest'), Uc.cur + ' ' + fmt(investVal, 0), investWan, '');
+  html += kpi(t('kpi_payback'), paybackTxt, t('payback_note'), 'payback');
+  grid.innerHTML = html;
+
+  const note = document.getElementById('resultNote');
+  let noteTxt = r.dP <= 0.0001 ? t('no_saving') : (r.mode === 'nothrottle' ? t('result_note_nothrottle') : t('result_note_throttle'));
+  if (r.measured > 0) {
+    noteTxt += lang === 'zh'
+      ? ' 当前工况已采用实测基准功率 ' + fmt(pDisp(r.P_base), 0) + ' ' + power + '。'
+      : ' Measured baseline in use: ' + fmt(pDisp(r.P_base), 0) + ' ' + power + '.';
+  }
+  note.textContent = noteTxt;
+}
+
+function svgLineChart(containerId) {
+  const s = state();
+  const r = calc(s);
+  const W = 720, H = 260, padL = 52, padR = 16, padT = 16, padB = 34;
+  const x0 = 0.3, x1 = 1.0; // load ratio range
+  const yMax = Math.max(r.P, 1);
+  const px = (x) => padL + (x - x0) / (x1 - x0) * (W - padL - padR);
+  const py = (y) => padT + (1 - y / yMax) * (H - padT - padB);
+  const xTicks = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0];
+  const yTicks = [];
+  const step = niceStep(yMax, 5);
+  for (let v = 0; v <= yMax + 1e-9; v += step) yTicks.push(v);
+
+  let g = '';
+  // grid + axes
+  xTicks.forEach(x => {
+    g += '<line x1="' + px(x) + '" y1="' + padT + '" x2="' + px(x) + '" y2="' + (H - padB) + '" stroke="#e6edf5" stroke-width="1"/>';
+    g += '<text x="' + px(x) + '" y="' + (H - 12) + '" font-size="11" fill="#61768c" text-anchor="middle">' + Math.round(x * 100) + '%</text>';
+  });
+  yTicks.forEach(v => {
+    g += '<line x1="' + padL + '" y1="' + py(v) + '" x2="' + (W - padR) + '" y2="' + py(v) + '" stroke="#e6edf5" stroke-width="1"/>';
+    g += '<text x="' + (padL - 8) + '" y="' + (py(v) + 4) + '" font-size="11" fill="#61768c" text-anchor="end">' + fmt(pDisp(v), pDisp(v) < 100 ? 1 : 0) + '</text>';
+  });
+  // axes lines
+  g += '<line x1="' + padL + '" y1="' + padT + '" x2="' + padL + '" y2="' + (H - padB) + '" stroke="#b9c7d8" stroke-width="1.2"/>';
+  g += '<line x1="' + padL + '" y1="' + (H - padB) + '" x2="' + (W - padR) + '" y2="' + (H - padB) + '" stroke="#b9c7d8" stroke-width="1.2"/>';
+  // baseline line: full speed (no throttling), industry average or pump curve
+  let dTh = '';
+  for (let x = x0; x <= x1 + 1e-9; x += 0.005) {
+    const y = r.P * baselineRatio(s, x);
+    dTh += (dTh ? ' L' : 'M') + px(Math.min(x, x1)).toFixed(1) + ',' + py(y).toFixed(1);
+  }
+  g += '<path d="' + dTh + '" fill="none" stroke="#e0563f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>';
+  // pmsd line (cubic)
+  let dPm = '';
+  for (let x = x0; x <= x1 + 1e-9; x += 0.01) {
+    const y = r.P * Math.pow(x, 3);
+    dPm += (dPm ? ' L' : 'M') + px(Math.min(x, x1)).toFixed(1) + ',' + py(y).toFixed(1);
+  }
+  g += '<path d="' + dPm + '" fill="none" stroke="#19a974" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>';
+  // current point
+  const cx = px(r.L), cy1 = py(r.P_base), cy2 = py(r.P_speed);
+  g += '<line x1="' + cx + '" y1="' + padT + '" x2="' + cx + '" y2="' + (H - padB) + '" stroke="#1f6fd6" stroke-width="1.4" stroke-dasharray="5,4"/>';
+  g += '<circle cx="' + cx + '" cy="' + cy1 + '" r="5.5" fill="#e0563f" stroke="#fff" stroke-width="2"/>';
+  g += '<circle cx="' + cx + '" cy="' + cy2 + '" r="5.5" fill="#19a974" stroke="#fff" stroke-width="2"/>';
+  g += '<rect x="' + (cx + 8) + '" y="' + ((cy1 + cy2) / 2 - 14) + '" width="150" height="28" rx="7" fill="#1f6fd6"/>';
+  g += '<text x="' + (cx + 16) + '" y="' + ((cy1 + cy2) / 2 + 4) + '" font-size="11.5" fill="#fff" font-weight="700">' + fmt(pDisp(r.P_base), 0) + ' → ' + fmt(pDisp(r.P_speed), 0) + ' ' + U_().power + '</text>';
+  document.getElementById(containerId).innerHTML =
+    '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + t('chart1_title') + '">' + g + '</svg>';
+}
+
+function niceStep(max, n) {
+  const raw = max / n;
+  const mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const norm = raw / mag;
+  let step;
+  if (norm <= 1) step = 1; else if (norm <= 2) step = 2; else if (norm <= 5) step = 5; else step = 10;
+  return step * mag;
+}
+
+function svgCumChart(containerId) {
+  const s = state();
+  const r = calc(s);
+  const W = 720, H = 260, padL = 58, padR = 16, padT = 16, padB = 34;
+  const years = 10;
+  const cum = [];
+  for (let y = 0; y <= years; y++) cum.push(r.cost * y);
+  const yMax = Math.max(r.invest * 1.25, cum[years] || 1, r.invest || 1);
+  const px = (y) => padL + y / years * (W - padL - padR);
+  const py = (v) => padT + (1 - v / yMax) * (H - padT - padB);
+  const yTicks = [];
+  const step = niceStep(yMax, 5);
+  for (let v = 0; v <= yMax + 1e-9; v += step) yTicks.push(v);
+  let g = '';
+  yTicks.forEach(v => {
+    g += '<line x1="' + padL + '" y1="' + py(v) + '" x2="' + (W - padR) + '" y2="' + py(v) + '" stroke="#e6edf5"/>';
+    const vCur = money(v);
+    const tickTxt = lang === 'zh'
+      ? (vCur >= 10000 ? fmt(vCur / 10000, 0) + 'w' : fmt(vCur, 0))
+      : (vCur >= 1000 ? fmt(vCur / 1000, 1) + 'k' : fmt(vCur, 0));
+    g += '<text x="' + (padL - 8) + '" y="' + (py(v) + 4) + '" font-size="11" fill="#61768c" text-anchor="end">' + tickTxt + '</text>';
+  });
+  for (let y = 0; y <= years; y++) {
+    g += '<line x1="' + px(y) + '" y1="' + padT + '" x2="' + px(y) + '" y2="' + (H - padB) + '" stroke="#e6edf5"/>';
+    g += '<text x="' + px(y) + '" y="' + (H - 12) + '" font-size="11" fill="#61768c" text-anchor="middle">' + y + '</text>';
+  }
+  g += '<line x1="' + padL + '" y1="' + padT + '" x2="' + padL + '" y2="' + (H - padB) + '" stroke="#b9c7d8" stroke-width="1.2"/>';
+  g += '<line x1="' + padL + '" y1="' + (H - padB) + '" x2="' + (W - padR) + '" y2="' + (H - padB) + '" stroke="#b9c7d8" stroke-width="1.2"/>';
+  // cumulative area
+  let d = '';
+  for (let y = 0; y <= years; y += 0.25) {
+    const v = r.cost * y;
+    d += (d ? ' L' : 'M') + px(y).toFixed(1) + ',' + py(v).toFixed(1);
+  }
+  d += ' L' + px(years).toFixed(1) + ',' + py(0) + ' Z';
+  g += '<path d="' + d + '" fill="rgba(25,169,116,0.18)" stroke="none"/>';
+  d = '';
+  for (let y = 0; y <= years; y += 0.25) {
+    const v = r.cost * y;
+    d += (d ? ' L' : 'M') + px(y).toFixed(1) + ',' + py(v).toFixed(1);
+  }
+  g += '<path d="' + d + '" fill="none" stroke="#19a974" stroke-width="3" stroke-linecap="round"/>';
+  // investment line
+  g += '<line x1="' + padL + '" y1="' + py(r.invest) + '" x2="' + (W - padR) + '" y2="' + py(r.invest) + '" stroke="#e0563f" stroke-width="2.4" stroke-dasharray="7,5"/>';
+  g += '<text x="' + (W - padR - 6) + '" y="' + (py(r.invest) - 7) + '" font-size="11" fill="#e0563f" font-weight="700" text-anchor="end">' + t('legend_invest') + ' ' + U_().cur + fmt(money(r.invest), 0) + '</text>';
+  // break-even marker
+  if (isFinite(r.payback) && r.payback <= years) {
+    const bx = px(r.payback);
+    g += '<line x1="' + bx + '" y1="' + padT + '" x2="' + bx + '" y2="' + (H - padB) + '" stroke="#f5a623" stroke-width="1.5" stroke-dasharray="4,4"/>';
+    g += '<circle cx="' + bx + '" cy="' + py(r.cost * r.payback) + '" r="5.5" fill="#f5a623" stroke="#fff" stroke-width="2"/>';
+    g += '<text x="' + bx + '" y="' + (py(r.cost * r.payback) - 10) + '" font-size="11.5" fill="#c77d10" font-weight="700" text-anchor="middle">' + fmt(r.payback, 2) + ' ' + t('unit_year') + '</text>';
+  }
+  document.getElementById(containerId).innerHTML =
+    '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + t('chart2_title') + '">' + g + '</svg>';
+}
+
+function renderTable() {
+  const s = state();
+  const r = calc(s);
+  const power = U_().power;
+  const showCurve = (s.mode === 'throttle' && s.tmodel === 'curve');
+  const th = (text) => '<th>' + text + '</th>';
+  const td = (text, cls) => '<td class="' + (cls || '') + '">' + text + '</td>';
+  let head = th(t('th_load'));
+  if (showCurve) head += th(t('th_curve') + ' (%)');
+  head += th(t('th_base') + ' (' + power + ')') + th(t('th_pmsd') + ' (' + power + ')') + th(t('th_saved') + ' (' + power + ')') + th(t('th_pct'));
+  let html = '<table><thead><tr>' + head + '</tr></thead><tbody>';
+  LOADS.forEach((L, i) => {
+    const hl = Math.abs(L - s.L) < 0.0005;
+    const ratio = baselineRatio(s, L);
+    const pBase = (hl && s.measured > 0) ? s.measured : r.P * ratio;
+    const pSpd = r.P * Math.pow(L, 3);
+    const dP = Math.max(0, pBase - pSpd);
+    const pct = pBase > 0 ? dP / pBase * 100 : 0;
+    let row = td((hl ? t('row_current') + ' · ' : '') + Math.round(L * 100) + '%');
+    if (showCurve) {
+      row += td('<input class="curve-in" id="curve-in-' + i + '" type="number" min="0" max="150" step="1" value="' + Math.round(ratio * 100) + '" inputmode="decimal">');
+    }
+    row += td(fmt(pDisp(pBase), 1)) + td(fmt(pDisp(pSpd), 1)) + td(fmt(pDisp(dP), 1)) + td(fmt(pct, 1) + '%');
+    html += '<tr' + (hl ? ' class="hl"' : '') + '>' + row + '</tr>';
+  });
+  let foot = td(t('row_current'));
+  if (showCurve) foot += td(fmt(baselineRatio(s, s.L) * 100, 0) + '%');
+  foot += td(fmt(pDisp(r.P_base), 1)) + td(fmt(pDisp(r.P_speed), 1)) + td(fmt(pDisp(r.dP), 1)) + td(fmt(r.savingRate, 1) + '%');
+  html += '</tbody><tfoot><tr>' + foot + '</tr></tfoot></table>';
+  document.getElementById('loadTable').innerHTML = html;
+}
+
+function renderWhy() {
+  const items = T[lang].why_body;
+  let html = '<ul>';
+  items.forEach(it => { html += '<li><b>' + it[0] + '</b> — ' + it[1] + '</li>'; });
+  html += '</ul>';
+  document.getElementById('whyBody').innerHTML = html;
+}
+
+function renderAll() {
+  const r = calc(state());
+  renderResults(r);
+  svgLineChart('chart1');
+  svgCumChart('chart2');
+  renderTable();
+  renderWhy();
+}
+
+function applyI18n() {
+  const Uc = U_();
+  document.querySelectorAll('[data-i18n]').forEach(node => {
+    const key = node.getAttribute('data-i18n');
+    if (T[lang][key]) node.textContent = T[lang][key];
+  });
+  document.title = lang === 'zh' ? 'VOx-XIX 永磁调速器节能计算器' : 'VOx-XIX PMASD Energy Savings Calculator';
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+  document.getElementById('lang-zh').classList.toggle('active', lang === 'zh');
+  document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+  document.getElementById('unit-metric').classList.toggle('active', units === 'metric');
+  document.getElementById('unit-us').classList.toggle('active', units === 'us');
+  document.getElementById('unit-metric').textContent = t('unit_metric') + (units === 'metric' ? '' : '');
+  document.getElementById('unit-us').textContent = t('unit_us');
+  document.getElementById('annualHours').parentElement.querySelector('.unit').textContent = lang === 'zh' ? 'h/年' : 'h/yr';
+  document.getElementById('motorPowerUnit').textContent = Uc.power;
+  document.getElementById('basePowerUnit').textContent = Uc.power;
+  document.getElementById('tariffUnit').textContent = Uc.tariff;
+  document.getElementById('investUnitLabel').textContent = Uc.price;
+  document.getElementById('investRangeHint').textContent =
+    (lang === 'zh' ? '投资范围 ' : 'Investment range ') + Uc.iMin + '–' + Uc.iMax + ' ' + Uc.price;
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  document.getElementById('modeNote').textContent = mode === 'nothrottle' ? t('mode_note_nothrottle') : t('mode_note_throttle');
+  document.getElementById('tmodelField').classList.toggle('hidden', mode !== 'throttle');
+  document.getElementById('basePowerLabel').textContent = mode === 'nothrottle' ? t('base_power_nothrottle') : t('base_power_throttle');
+  document.getElementById('legendBaseline').textContent = mode === 'nothrottle' ? t('legend_baseline_nothrottle') : t('legend_baseline_throttle');
+  const invEl = document.getElementById('investUnit');
+  const tarEl = document.getElementById('tariff');
+  invEl.min = Uc.iMin; invEl.max = Uc.iMax; invEl.step = Uc.iStep;
+  tarEl.min = Uc.tMin; tarEl.max = Uc.tMax; tarEl.step = Uc.tStep;
+  document.querySelectorAll('.quickbtns button').forEach((b, i) => {
+    b.textContent = Uc.quicks[i];
+    b.setAttribute('onclick', 'setUnit(' + Uc.quicks[i] + ')');
+  });
+  renderAll();
+}
+
+function setLang(l) {
+  lang = l;
+  applyI18n();
+  saveState();
+}
+
+function setUnits(u) {
+  if (u !== units) {
+    const s = state();
+    units = u;
+    el('motorPower').value = round2(pDisp(s.P));
+    el('measuredPower').value = round2(pDisp(s.measured));
+    el('tariff').value = round2(tariffDisp(s.price));
+    el('investUnit').value = Math.round(unitDisp(s.unit));
+    document.getElementById('investUnitVal').textContent = el('investUnit').value;
+  }
+  units = u;
+  applyI18n();
+  saveState();
+}
+
+function setUnit(v) {
+  el('investUnit').value = v;
+  document.getElementById('investUnitVal').textContent = v;
+  onInput();
+}
+
+function onInput() {
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  document.getElementById('loadRatioUnit').textContent = '%';
+  document.getElementById('investUnitVal').textContent = el('investUnit').value;
+  document.getElementById('tmodelField').classList.toggle('hidden', mode !== 'throttle');
+  document.getElementById('modeNote').textContent = mode === 'nothrottle' ? t('mode_note_nothrottle') : t('mode_note_throttle');
+  document.getElementById('basePowerLabel').textContent = mode === 'nothrottle' ? t('base_power_nothrottle') : t('base_power_throttle');
+  document.getElementById('legendBaseline').textContent = mode === 'nothrottle' ? t('legend_baseline_nothrottle') : t('legend_baseline_throttle');
+  renderAll();
+  saveState();
+}
+
+function saveState() {
+  try {
+    const s = state();
+    localStorage.setItem('voxxix_calc', JSON.stringify({
+      lang: lang, units: units, mode: s.mode, tmodel: s.tmodel,
+      P: s.P, L: s.L, hours: s.hours, price: s.price, unit: s.unit,
+      extra: s.extra, measured: s.measured, curve: s.curve
+    }));
+  } catch (e) { /* ignore */ }
+}
+
+function restoreState() {
+  try {
+    const raw = localStorage.getItem('voxxix_calc');
+    if (!raw) return;
+    const s = JSON.parse(raw);
+    if (s.lang) lang = s.lang;
+    if (s.units) units = s.units;
+    if (Array.isArray(s.curve) && s.curve.length === LOADS.length) curveValues = s.curve.slice();
+    const set = (id, v) => { if (v !== undefined && v !== null) el(id).value = v; };
+    set('motorPower', round2(pDisp(s.P || 0)));
+    set('loadRatio', Math.round((s.L || 0.75) * 100));
+    set('annualHours', s.hours !== undefined ? s.hours : 8000);
+    set('tariff', round2(tariffDisp(s.price || 0)));
+    set('measuredPower', round2(pDisp(s.measured || 0)));
+    set('investUnit', Math.round(unitDisp(s.unit || 0)));
+    set('extraCost', s.extra || 0);
+    if (s.mode) { const rb = document.querySelector('input[name="mode"][value="' + s.mode + '"]'); if (rb) rb.checked = true; }
+    if (s.tmodel) { const rb = document.querySelector('input[name="tmodel"][value="' + s.tmodel + '"]'); if (rb) rb.checked = true; }
+    document.getElementById('investUnitVal').textContent = el('investUnit').value;
+  } catch (e) { /* ignore */ }
+}
+
+function resetAll() {
+  try { localStorage.removeItem('voxxix_calc'); } catch (e) {}
+  const Uc = U_();
+  el('motorPower').value = Uc.def.P;
+  el('loadRatio').value = 75;
+  el('annualHours').value = 8000;
+  el('tariff').value = Uc.def.tariff;
+  el('measuredPower').value = 0;
+  el('investUnit').value = Uc.def.unit;
+  el('extraCost').value = 0;
+  curveValues = AVG_CURVE.slice();
+  document.querySelector('input[name="mode"][value="nothrottle"]').checked = true;
+  document.querySelector('input[name="tmodel"][value="avg"]').checked = true;
+  syncRadios();
+  onInput();
+}
+
+function syncRadios() {
+  document.querySelectorAll('#modeGroup label').forEach(l => l.classList.toggle('on', l.querySelector('input').checked));
+  document.querySelectorAll('#tmodelGroup label').forEach(l => l.classList.toggle('on', l.querySelector('input').checked));
+}
+
+document.querySelectorAll('#modeGroup input').forEach(rb => rb.addEventListener('change', () => { syncRadios(); onInput(); }));
+document.querySelectorAll('#tmodelGroup input').forEach(rb => rb.addEventListener('change', () => { syncRadios(); onInput(); }));
+document.querySelectorAll('.inputs input').forEach(node => node.addEventListener('input', onInput));
+document.getElementById('loadTable').addEventListener('change', (ev) => {
+  if (ev.target && ev.target.classList.contains('curve-in')) {
+    curveValues = readCurve();
+    renderAll();
+    saveState();
+  }
+});
+
+restoreState();
+syncRadios();
+applyI18n();
+</script>
 </body>
 </html>
