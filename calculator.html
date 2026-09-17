@@ -221,7 +221,6 @@
           <label class="on"><input type="radio" name="mode" value="nothrottle" checked><span data-i18n="mode_nothrottle">无节流（相似定律）</span></label>
           <label><input type="radio" name="mode" value="throttle"><span data-i18n="mode_throttle">节流工况（阀门/挡板）</span></label>
         </div>
-        <div class="hint" id="modeNote"></div>
       </div>
 
       <div class="field hidden" id="tmodelField">
@@ -305,11 +304,11 @@
   </main>
 
   <footer>
-    <div class="brand-line">VOx-XIX Permanent Magnet Adjustable Speed Drive</div>
-    <div data-i18n="footer_company">VOx Envirotech LLC</div>
-    <div data-i18n="footer_contact">Thomas Dayton · +1 (636) 557-2733 · tdayton@voxenviro.com · www.voxenviro.com</div>
+    <div class="brand-line" data-i18n="footer_brand">VOx-XIX 永磁调速器</div>
+    <div data-i18n="footer_company">馨唯环保科技</div>
+    <div data-i18n="footer_contact">周先生 +86 138 1645 2946 · James.zhou@voxenviro.com</div>
     <div data-i18n="footer_disclaimer">本计算器基于风扇/水泵相似定律与典型节流模型，节能效果与投资回收期为工程估算，仅供参考。</div>
-<div id="verNote" style="margin-top:6px;opacity:.75">Calculator version / 计算器版本 V2.1 · 2026-09-17</div>
+<div id="verNote" style="margin-top:6px;opacity:.75">Calculator version / 计算器版本 V2.2 · 2026-09-17</div>
   </footer>
 </div>
 
@@ -326,8 +325,6 @@ const T = {
     app_mode: "应用模式",
     mode_nothrottle: "无节流（相似定律）",
     mode_throttle: "节流工况（阀门/挡板）",
-    mode_note_nothrottle: "适用：泵出口无调节阀的工况（如石膏法脱硫浆液泵）。基准为工频全速运行功率（默认 ≈ 额定功率），永磁调速后功率 ≈ 额定功率 × 负载率³，节能来自降速运行。",
-    mode_note_throttle: "适用：阀门/挡板节流的工况（如循环冷却塔水泵）。基准为节流工况功率：默认取工业平均值——电机功率下降慢于流量，约为额定的 50% + 50% × 负载率（如 90% 流量 ≈ 95% 功率；阀全关时约 50%）；也可按泵曲线自定义或填实测值。永磁调速取消节流后功率 ≈ 额定功率 × 负载率³。",
     throttle_model: "节流基准取值",
     tmodel_avg: "工业平均值（经验曲线）",
     tmodel_curve: "按泵曲线输入",
@@ -384,8 +381,9 @@ const T = {
       ["无谐波、无电压尖峰", "永磁调速为纯机械调速，无电力电子器件，不产生谐波与电压尖峰，不影响电网质量。", "harmonic"],
       ["适应恶劣环境", "结构简单可靠，适合高温、粉尘、潮湿及易燃易爆等严苛环境，寿命可达 15–20 年。", "env"]
     ],
-    footer_company: "VOx Envirotech LLC",
-    footer_contact: "Thomas Dayton · +1 (636) 557-2733 · tdayton@voxenviro.com · www.voxenviro.com",
+    footer_brand: "VOx-XIX 永磁调速器",
+    footer_company: "馨唯环保科技",
+    footer_contact: "周先生 +86 138 1645 2946 · James.zhou@voxenviro.com",
     footer_disclaimer: "本计算器基于风扇/水泵相似定律与典型节流模型，节能效果与投资回收期为工程估算，仅供参考。",
     load_label: "负载率",
     payback_note: "年"
@@ -401,8 +399,6 @@ const T = {
     app_mode: "Application mode",
     mode_nothrottle: "No throttling (affinity law)",
     mode_throttle: "Throttling (valve / damper)",
-    mode_note_nothrottle: "For applications without a control valve, e.g., gypsum-desulfurization slurry pumps. Baseline = full-speed operation power (≈ rated power); PMSD power ≈ rated power × load ratio³, so savings come from lower speed operation.",
-    mode_note_throttle: "For throttled applications, e.g., cooling-tower pumps. Baseline = throttled power: industry average by default — motor power falls more slowly than flow, roughly 50% + 50% × load ratio (e.g. 90% flow ≈ 95% power; closed valve ≈ 50%) — or your pump-curve / measured value. PMSD removes throttling; power ≈ rated power × load ratio³.",
     throttle_model: "Throttle baseline",
     tmodel_avg: "Industry average (empirical)",
     tmodel_curve: "From pump curve",
@@ -459,8 +455,9 @@ const T = {
       ["No harmonics, no voltage spikes", "PMSD is a purely mechanical speed control with no power electronics, producing no harmonics or voltage spikes.", "harmonic"],
       ["Built for harsh environments", "Simple and reliable structure suited for high temperature, dust, humidity and flammable/explosive areas, with 15–20 years life.", "env"]
     ],
+    footer_brand: "VOx-XIX Permanent Magnet Adjustable Speed Drive",
     footer_company: "VOx Envirotech LLC",
-    footer_contact: "Thomas Dayton · +1 (636) 557-2733 · tdayton@voxenviro.com · www.voxenviro.com",
+    footer_contact: "Thomas Dayton · +1 (636) 557-2733 · tdayton@voxenviro.com",
     footer_disclaimer: "This calculator is based on the fan/pump affinity law and typical throttling models. Savings and payback are engineering estimates for reference only.",
     load_label: "Load ratio",
     payback_note: "yr"
@@ -485,30 +482,34 @@ function fmt(n, d) {
 
 const HP_PER_KW = 1.34102209;
 const RMB_PER_USD = 6;
-// two unit systems, selectable independently of language
-const U = {
-  metric: {
-    power: 'kW', cur: '¥', tariff: 'RMB/kWh', price: 'RMB/kW', wan: '万元',
+// currency follows the language (zh -> RMB, en -> USD);
+// power unit (kW / hp) is chosen with the 公制/美制 buttons
+const CUR = {
+  RMB: {
+    cur: '¥', tariff: 'RMB/kWh', price: 'RMB/kW', wan: '万元',
     iMin: 800, iMax: 2400, iStep: 10, quicks: [800, 1600, 2400],
     tMin: 0.01, tMax: 5, tStep: 0.01,
-    def: { P: 500, tariff: 0.75, unit: 1250 }
+    def: { tariff: 0.75, unit: 1250 }
   },
-  us: {
-    power: 'hp', cur: '$', tariff: '¢/kWh', price: 'USD/kW', wan: '×10k USD',
+  USD: {
+    cur: '$', tariff: '¢/kWh', price: 'USD/kW', wan: '×10k USD',
     iMin: 150, iMax: 400, iStep: 5, quicks: [150, 250, 400],
     tMin: 0.1, tMax: 100, tStep: 0.1,
-    def: { P: 500, tariff: 12.5, unit: 210 }
+    def: { tariff: 12.5, unit: 210 }
   }
 };
+const POWER_DEFAULT = 500;
+function curKey() { return lang === 'zh' ? 'RMB' : 'USD'; }
+function Cu() { return CUR[curKey()]; }
+function powerUnit() { return units === 'us' ? 'hp' : 'kW'; }
 function round2(v) { return Math.round(v * 100) / 100; }
 function pDisp(kw) { return units === 'us' ? kw * HP_PER_KW : kw; }
 function pBase(v) { return units === 'us' ? v / HP_PER_KW : v; }
-function tariffDisp(rmb) { return units === 'us' ? rmb * 100 / RMB_PER_USD : rmb; }
-function tariffBase(v) { return units === 'us' ? v * RMB_PER_USD / 100 : v; }
-function unitDisp(rmb) { return units === 'us' ? rmb / RMB_PER_USD : rmb; }
-function unitBase(v) { return units === 'us' ? v * RMB_PER_USD : v; }
-function money(rmb) { return units === 'us' ? rmb / RMB_PER_USD : rmb; }
-function U_() { return U[units]; }
+function tariffDisp(rmb) { return curKey() === 'USD' ? rmb * 100 / RMB_PER_USD : rmb; }
+function tariffBase(v) { return curKey() === 'USD' ? v * RMB_PER_USD / 100 : v; }
+function unitDisp(rmb) { return curKey() === 'USD' ? rmb / RMB_PER_USD : rmb; }
+function unitBase(v) { return curKey() === 'USD' ? v * RMB_PER_USD : v; }
+function money(rmb) { return curKey() === 'USD' ? rmb / RMB_PER_USD : rmb; }
 function el(id) { return document.getElementById(id); }
 function curveRatioAt(curve, L) {
   if (L >= LOADS[0]) return curve[0];
@@ -579,11 +580,11 @@ function kpi(label, value, sub, cls) {
 
 function renderResults(r) {
   const grid = document.getElementById('kpiGrid');
-  const Uc = U_();
+  const Uc = Cu();
   const paybackTxt = isFinite(r.payback) ? fmt(r.payback, 2) + ' ' + t('unit_year') + ' · ' + fmt(Math.round(r.payback * 12)) + ' ' + t('month') : t('never');
   const investVal = money(r.invest);
   const costVal = money(r.cost);
-  const power = Uc.power;
+  const power = powerUnit();
   const investWan = '≈ ' + fmt(investVal / 10000, 1) + ' ' + Uc.wan;
   const energyWan = lang === 'zh' ? '≈ ' + fmt(r.energy / 10000, 1) + ' ' + Uc.wan + ' kWh' : '';
   const baseLabel = r.mode === 'nothrottle' ? t('kpi_baseline_nothrottle') : t('kpi_baseline_throttle');
@@ -652,7 +653,7 @@ function svgLineChart(containerId) {
   g += '<circle cx="' + cx + '" cy="' + cy1 + '" r="5.5" fill="#e0563f" stroke="#fff" stroke-width="2"/>';
   g += '<circle cx="' + cx + '" cy="' + cy2 + '" r="5.5" fill="#19a974" stroke="#fff" stroke-width="2"/>';
   g += '<rect x="' + (cx + 8) + '" y="' + ((cy1 + cy2) / 2 - 14) + '" width="150" height="28" rx="7" fill="#1f6fd6"/>';
-  g += '<text x="' + (cx + 16) + '" y="' + ((cy1 + cy2) / 2 + 4) + '" font-size="11.5" fill="#fff" font-weight="700">' + fmt(pDisp(r.P_base), 0) + ' → ' + fmt(pDisp(r.P_speed), 0) + ' ' + U_().power + '</text>';
+  g += '<text x="' + (cx + 16) + '" y="' + ((cy1 + cy2) / 2 + 4) + '" font-size="11.5" fill="#fff" font-weight="700">' + fmt(pDisp(r.P_base), 0) + ' → ' + fmt(pDisp(r.P_speed), 0) + ' ' + powerUnit() + '</text>';
   document.getElementById(containerId).innerHTML =
     '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + t('chart1_title') + '">' + g + '</svg>';
 }
@@ -710,7 +711,7 @@ function svgCumChart(containerId) {
   g += '<path d="' + d + '" fill="none" stroke="#19a974" stroke-width="3" stroke-linecap="round"/>';
   // investment line
   g += '<line x1="' + padL + '" y1="' + py(r.invest) + '" x2="' + (W - padR) + '" y2="' + py(r.invest) + '" stroke="#e0563f" stroke-width="2.4" stroke-dasharray="7,5"/>';
-  g += '<text x="' + (W - padR - 6) + '" y="' + (py(r.invest) - 7) + '" font-size="11" fill="#e0563f" font-weight="700" text-anchor="end">' + t('legend_invest') + ' ' + U_().cur + fmt(money(r.invest), 0) + '</text>';
+  g += '<text x="' + (W - padR - 6) + '" y="' + (py(r.invest) - 7) + '" font-size="11" fill="#e0563f" font-weight="700" text-anchor="end">' + t('legend_invest') + ' ' + Cu().cur + fmt(money(r.invest), 0) + '</text>';
   // break-even marker
   if (isFinite(r.payback) && r.payback <= years) {
     const bx = px(r.payback);
@@ -725,7 +726,7 @@ function svgCumChart(containerId) {
 function renderTable() {
   const s = state();
   const r = calc(s);
-  const power = U_().power;
+  const power = powerUnit();
   const showCurve = (s.mode === 'throttle' && s.tmodel === 'curve');
   const th = (text) => '<th>' + text + '</th>';
   const td = (text, cls) => '<td class="' + (cls || '') + '">' + text + '</td>';
@@ -772,7 +773,7 @@ function renderAll() {
 }
 
 function applyI18n() {
-  const Uc = U_();
+  const Uc = Cu();
   document.querySelectorAll('[data-i18n]').forEach(node => {
     const key = node.getAttribute('data-i18n');
     if (T[lang][key]) node.textContent = T[lang][key];
@@ -786,14 +787,13 @@ function applyI18n() {
   document.getElementById('unit-metric').textContent = t('unit_metric') + (units === 'metric' ? '' : '');
   document.getElementById('unit-us').textContent = t('unit_us');
   document.getElementById('annualHours').parentElement.querySelector('.unit').textContent = lang === 'zh' ? 'h/年' : 'h/yr';
-  document.getElementById('motorPowerUnit').textContent = Uc.power;
-  document.getElementById('basePowerUnit').textContent = Uc.power;
+  document.getElementById('motorPowerUnit').textContent = powerUnit();
+  document.getElementById('basePowerUnit').textContent = powerUnit();
   document.getElementById('tariffUnit').textContent = Uc.tariff;
   document.getElementById('investUnitLabel').textContent = Uc.price;
   document.getElementById('investRangeHint').textContent =
     (lang === 'zh' ? '投资范围 ' : 'Investment range ') + Uc.iMin + '–' + Uc.iMax + ' ' + Uc.price;
   const mode = document.querySelector('input[name="mode"]:checked').value;
-  document.getElementById('modeNote').textContent = mode === 'nothrottle' ? t('mode_note_nothrottle') : t('mode_note_throttle');
   document.getElementById('tmodelField').classList.toggle('hidden', mode !== 'throttle');
   document.getElementById('basePowerLabel').textContent = mode === 'nothrottle' ? t('base_power_nothrottle') : t('base_power_throttle');
   document.getElementById('legendBaseline').textContent = mode === 'nothrottle' ? t('legend_baseline_nothrottle') : t('legend_baseline_throttle');
@@ -809,6 +809,13 @@ function applyI18n() {
 }
 
 function setLang(l) {
+  if (l !== lang) {
+    const s = state();
+    lang = l;
+    el('tariff').value = round2(tariffDisp(s.price));
+    el('investUnit').value = Math.round(unitDisp(s.unit));
+    document.getElementById('investUnitVal').textContent = el('investUnit').value;
+  }
   lang = l;
   applyI18n();
   saveState();
@@ -820,9 +827,6 @@ function setUnits(u) {
     units = u;
     el('motorPower').value = round2(pDisp(s.P));
     el('measuredPower').value = round2(pDisp(s.measured));
-    el('tariff').value = round2(tariffDisp(s.price));
-    el('investUnit').value = Math.round(unitDisp(s.unit));
-    document.getElementById('investUnitVal').textContent = el('investUnit').value;
   }
   units = u;
   applyI18n();
@@ -840,7 +844,6 @@ function onInput() {
   document.getElementById('loadRatioUnit').textContent = '%';
   document.getElementById('investUnitVal').textContent = el('investUnit').value;
   document.getElementById('tmodelField').classList.toggle('hidden', mode !== 'throttle');
-  document.getElementById('modeNote').textContent = mode === 'nothrottle' ? t('mode_note_nothrottle') : t('mode_note_throttle');
   document.getElementById('basePowerLabel').textContent = mode === 'nothrottle' ? t('base_power_nothrottle') : t('base_power_throttle');
   document.getElementById('legendBaseline').textContent = mode === 'nothrottle' ? t('legend_baseline_nothrottle') : t('legend_baseline_throttle');
   renderAll();
@@ -882,8 +885,8 @@ function restoreState() {
 
 function resetAll() {
   try { localStorage.removeItem('voxxix_calc'); } catch (e) {}
-  const Uc = U_();
-  el('motorPower').value = Uc.def.P;
+  const Uc = Cu();
+  el('motorPower').value = POWER_DEFAULT;
   el('loadRatio').value = 75;
   el('annualHours').value = 8000;
   el('tariff').value = Uc.def.tariff;
