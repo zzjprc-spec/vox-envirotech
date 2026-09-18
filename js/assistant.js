@@ -125,9 +125,9 @@
     {
       k: ["partner", "partnership", "supply", "shanghai xix", "taizhou huaye", "sulfuric", "matros", "合作伙伴", "供应", "上海", "台州", "socio", "alianza", "suministro"],
       a: {
-        en: "Our supply partners are Shanghai XIX Electric Co., Ltd. and Taizhou Huaye Pipeline Equipment Ltd. (North America), plus Sulfuric Solutions LLC and Matros Technologies Inc. (China).",
-        zh: "我们的供应合作伙伴：北美市场为 Shanghai XIX Electric Co., Ltd. 和 Taizhou Huaye Pipeline Equipment Ltd.；中国市场为 Sulfuric Solutions LLC 和 Matros Technologies Inc.。",
-        es: "Nuestros socios proveedores: en América del Norte, Shanghai XIX Electric Co., Ltd. y Taizhou Huaye Pipeline Equipment Ltd.; en China, Sulfuric Solutions LLC y Matros Technologies Inc."
+        en: "Our supply partners are XIX Electric Ltd. and Huaye Pipeline Equipment Ltd. (North America), plus Sulfuric Solutions LLC and Matros Technologies Inc. (China).",
+        zh: "我们的供应合作伙伴：北美市场为 XIX Electric Ltd. 和 Huaye Pipeline Equipment Ltd.；中国市场为 Sulfuric Solutions LLC 和 Matros Technologies Inc.。",
+        es: "Nuestros socios proveedores: en América del Norte, XIX Electric Ltd. y Huaye Pipeline Equipment Ltd.; en China, Sulfuric Solutions LLC y Matros Technologies Inc."
       }
     },
     {

@@ -17,7 +17,7 @@ const SYSTEM = [
   "  3) Energy Saving: VOx-XiX Permanent Magnet Adjustable Speed Drive (PM ASD), reducing power use, vibration and maintenance for fans/pumps/mixers.",
   "- Products: VOx-XiX (PM ASD), VOx-HY (flue gas components), VOx-MT (catalysts, developed with Matros Technologies).",
   "- Core technologies: Intelligent Combustion Control; High-Temperature Corrosive Quenching (to 1,300°C); Closed-Loop Scrubbing & Regeneration; High-Efficiency SNCR DeNOx (to 90%); Single-Bed Chemical-Looping Reaction.",
-  "- Partnerships: Shanghai XIX Electric Co., Ltd. and Taizhou Huaye Pipeline Equipment Ltd. (North America); Sulfuric Solutions LLC and Matros Technologies Inc. (China).",
+  "- Partnerships: XIX Electric Ltd. and Huaye Pipeline Equipment Ltd. (North America); Sulfuric Solutions LLC and Matros Technologies Inc. (China).",
   "- Contact: James Zhou (Operations Office, Shanghai) James.zhou@voxenviro.com, +86 138 1645 2946; Thomas Dayton (Technical Advisory Office, St. Louis) tdayton@voxenviro.com, +1 636 557 2733 (US), +86 131 6205 1039 (China).",
   "",
   "Rules:",

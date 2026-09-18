@@ -14,6 +14,7 @@ const SYSTEM = [
   "- Solutions: Pollution Control (incineration, exhaust gas treatment, integrated pollution control); Decarbonization (green methanol, green hydrogen + oxy-combustion, VOCs/biogas-to-liquid-fuels); Energy Saving (VOx-XiX PM ASD).",
   "- Products: VOx-XiX (PM ASD), VOx-HY (flue gas components), VOx-MT (catalysts).",
   "- Core technologies: Intelligent Combustion Control; High-Temperature Corrosive Quenching (to 1,300°C); Closed-Loop Scrubbing & Regeneration; High-Efficiency SNCR DeNOx (to 90%); Single-Bed Chemical-Looping Reaction.",
+  "- Supply partners: XIX Electric Ltd. and Huaye Pipeline Equipment Ltd. (North America); Sulfuric Solutions LLC and Matros Technologies Inc. (China).",
   "- Contact: James Zhou (Operations, Shanghai) James.zhou@voxenviro.com, +86 138 1645 2946; Thomas Dayton (Technical Advisory, St. Louis) tdayton@voxenviro.com, +1 636 557 2733 (US), +86 131 6205 1039 (China).",
   "",
   "Rules:",
