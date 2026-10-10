@@ -26,7 +26,7 @@ jobs:
       - name: Stage static site
         run: |
           mkdir -p _site
-          cp index.html calculator.html CNAME .nojekyll _site/ 2>/dev/null || true
+          cp index.html calculator.html pm-asd-operation.html CNAME .nojekyll _site/ 2>/dev/null || true
           cp -r css js images files _site/
 
       - uses: actions/configure-pages@v5
