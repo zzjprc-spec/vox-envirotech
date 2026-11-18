@@ -3,8 +3,8 @@
 
   var I18N = {
     en: {
-      "title": "VOx Envirotech — Pollution Control, Decarbonization & Energy Saving",
-      "meta_description": "VOx Envirotech delivers pollution control, decarbonization and energy-saving solutions and products for chemical and industrial operations worldwide.",
+      "title": "VOx Envirotech | 馨唯环保 — Pollution Control, Decarbonization & Energy Saving",
+      "meta_description": "VOx Envirotech (馨唯环保) delivers pollution control, decarbonization and energy-saving solutions and products for chemical and industrial operations worldwide.",
       "skip_link": "Skip to content",
       "nav_toggle_aria": "Toggle menu",
       "brand_home_aria": "VOx Envirotech home",
@@ -25,9 +25,9 @@
       "pillar_smarter_desc": "The VOx-XiX permanent-magnet drive cuts power use, vibration and maintenance for large motors.",
       "hero_explore": "Explore Solutions",
       "hero_talk": "Talk to Our Team",
-      "about_eyebrow": "About VOx Envirotech",
+      "about_eyebrow": "About VOx Envirotech · 馨唯环保",
       "about_title": "Our story",
-      "about_intro": "Founded in St. Louis, MO in 2016 and expanded through a Shanghai-based joint venture in 2017, VOx Envirotech brings together two industry veterans with decades of shared experience.",
+      "about_intro": "Founded in St. Louis, MO in 2016 and expanded through a Shanghai-based joint venture in 2017, VOx Envirotech — known in China as 馨唯环保 — brings together two industry veterans with decades of shared experience.",
       "about_p2": "Prior to launching VOx, the founders established themselves as pioneers in chemical process and environmental technologies. Today, that combined expertise drives everything we build — from high-destruction thermal oxidation to closed-loop chemical recovery.",
       "about_mission": "VOx is committed to building a clean, low-carbon, energy-efficient green world — and to developing and delivering the solutions and products that make it possible.",
       "about_pillar1_title": "Pollution control",
@@ -175,8 +175,8 @@
     },
 
     zh: {
-      "title": "VOx Envirotech — 污染控制、脱碳与节能",
-      "meta_description": "VOx Envirotech 为全球化工与工业运营提供污染控制、脱碳和节能的解决方案与产品。",
+      "title": "馨唯环保 | VOx Envirotech — 污染控制、脱碳与节能",
+      "meta_description": "馨唯环保（VOx Envirotech）为全球化工与工业运营提供污染控制、脱碳和节能的解决方案与产品。",
       "skip_link": "跳到主要内容",
       "nav_toggle_aria": "切换菜单",
       "brand_home_aria": "VOx Envirotech 首页",
@@ -197,9 +197,9 @@
       "pillar_smarter_desc": "VOx-XiX 永磁调速器可降低大型电机的电耗、振动与维护量。",
       "hero_explore": "了解解决方案",
       "hero_talk": "联系我们的团队",
-      "about_eyebrow": "关于 VOx Envirotech",
+      "about_eyebrow": "关于馨唯环保（VOx Envirotech）",
       "about_title": "我们的故事",
-      "about_intro": "VOx Envirotech 于 2016 年在美国圣路易斯成立，并于 2017 年通过上海合资公司拓展，汇集了两位拥有数十年共同经验的行业资深人士。",
+      "about_intro": "馨唯环保（VOx Envirotech）于 2016 年在美国圣路易斯成立，并于 2017 年通过上海合资公司拓展，汇集了两位拥有数十年共同经验的行业资深人士。",
       "about_p2": "在创立 VOx 之前，创始人们已在化工工艺与环境技术领域树立了先驱地位。如今，这份综合专长驱动着我们打造的一切——从高效热氧化到闭环化学回收。",
       "about_mission": "VOx 致力于建设一个清洁、低碳、节能的绿色世界，并开发与交付使之成为现实的解决方案和产品。",
       "about_pillar1_title": "污染控制",

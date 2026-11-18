@@ -1,9 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VOx-XIX 永磁调速器节能计算器</title>
+<title>VOx-XiX 永磁调速器节能计算器 | 馨唯环保</title>
+<meta name="description" content="馨唯环保 VOx-XiX 永磁调速器（PM ASD）在线节能计算器，可按电机功率、运行时间和负载估算节电、费用与碳减排。">
+<meta name="keywords" content="馨唯环保, VOx-XiX, 永磁调速器, PM ASD, 节能计算器, 电机节能">
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://www.voxenviro.com/calculator.html" />
+<meta property="og:title" content="VOx-XiX PM ASD Energy Saving Calculator | 馨唯环保" />
+<meta property="og:description" content="Estimate energy, cost and CO2 savings from a VOx-XiX Permanent Magnet Adjustable Speed Drive." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.voxenviro.com/calculator.html" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"VOx-XiX PM ASD Energy Saving Calculator","alternateName":"馨唯环保永磁调速器节能计算器","url":"https://www.voxenviro.com/calculator.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","description":"Online calculator for estimating electricity, cost and carbon savings from a VOx-XiX permanent magnet adjustable speed drive.","provider":{"@type":"Organization","name":"VOx Envirotech","alternateName":["馨唯环保","馨唯环保科技"],"url":"https://www.voxenviro.com/"}}
+</script>
 <style>
   :root {
     --navy: #0b2e59;
@@ -170,7 +181,7 @@
     <div class="brand">
       <div class="logo">VOx<br>-XIX</div>
       <div>
-        <div class="t1">VOx-XIX PMASD</div>
+        <div class="t1">VOx-XiX PMASD</div>
         <div class="t2" data-i18n="tagline">永磁调速器节能效果计算器</div>
       </div>
     </div>
@@ -304,7 +315,7 @@
   </main>
 
   <footer>
-    <div class="brand-line" data-i18n="footer_brand">VOx-XIX 永磁调速器</div>
+    <div class="brand-line" data-i18n="footer_brand">VOx-XiX 永磁调速器</div>
     <div data-i18n="footer_company">馨唯环保科技</div>
     <div data-i18n="footer_contact">周先生 +86 138 1645 2946 · James.zhou@voxenviro.com</div>
     <div data-i18n="footer_disclaimer">本计算器基于风扇/水泵相似定律与典型节流模型，节能效果与投资回收期为工程估算，仅供参考。</div>
@@ -381,7 +392,7 @@ const T = {
       ["无谐波、无电压尖峰", "永磁调速为纯机械调速，无电力电子器件，不产生谐波与电压尖峰，不影响电网质量。", "harmonic"],
       ["适应恶劣环境", "结构简单可靠，适合高温、粉尘、潮湿及易燃易爆等严苛环境，寿命可达 15–20 年。", "env"]
     ],
-    footer_brand: "VOx-XIX 永磁调速器",
+    footer_brand: "VOx-XiX 永磁调速器",
     footer_company: "馨唯环保科技",
     footer_contact: "周先生 +86 138 1645 2946 · James.zhou@voxenviro.com",
     footer_disclaimer: "本计算器基于风扇/水泵相似定律与典型节流模型，节能效果与投资回收期为工程估算，仅供参考。",
@@ -455,7 +466,7 @@ const T = {
       ["No harmonics, no voltage spikes", "PMSD is a purely mechanical speed control with no power electronics, producing no harmonics or voltage spikes.", "harmonic"],
       ["Built for harsh environments", "Simple and reliable structure suited for high temperature, dust, humidity and flammable/explosive areas, with 15–20 years life.", "env"]
     ],
-    footer_brand: "VOx-XIX Permanent Magnet Adjustable Speed Drive",
+    footer_brand: "VOx-XiX Permanent Magnet Adjustable Speed Drive",
     footer_company: "VOx Envirotech LLC",
     footer_contact: "Thomas Dayton · +1 (636) 557-2733 · tdayton@voxenviro.com",
     footer_disclaimer: "This calculator is based on the fan/pump affinity law and typical throttling models. Savings and payback are engineering estimates for reference only.",
@@ -778,7 +789,7 @@ function applyI18n() {
     const key = node.getAttribute('data-i18n');
     if (T[lang][key]) node.textContent = T[lang][key];
   });
-  document.title = lang === 'zh' ? 'VOx-XIX 永磁调速器节能计算器' : 'VOx-XIX PMASD Energy Savings Calculator';
+  document.title = lang === 'zh' ? 'VOx-XiX 永磁调速器节能计算器 | 馨唯环保' : 'VOx-XiX PM ASD Energy Savings Calculator | VOx Envirotech';
   document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
   document.getElementById('lang-zh').classList.toggle('active', lang === 'zh');
   document.getElementById('lang-en').classList.toggle('active', lang === 'en');
